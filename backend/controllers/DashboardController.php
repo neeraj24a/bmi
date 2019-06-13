@@ -32,7 +32,7 @@ class DashboardController extends \yii\web\Controller {
     public function actionIndex()
     {
         pre(Yii::$app->user->identity);
-        pre(Yii::$app->user->identity->type);
+        // pre(Yii::$app->user->identity->type);
         pre(Yii::$app->user->type, true);
         
         $audios = Track::findAll(['type' => 'audio']);
