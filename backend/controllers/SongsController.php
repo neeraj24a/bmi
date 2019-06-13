@@ -32,57 +32,71 @@ class SongsController extends \yii\web\Controller {
     }
     
     public function actionIndex() {
-        $month = date('Y-m');
-        $array = [];
-        $array['SongsSearch'] = [];
-        if(isset($_GET['month']) && !empty($_GET['month'])){
-            $month = $_GET['month'];
-        }
-        $searchModel = new SongsSearch();
-        $params = '';
-        if(isset($_GET['SongsSearch'])){
-            $params = Yii::$app->request->queryParams;
-        }
-        $title = '';
-        $artist = '';
-        if(!empty($params)){
-            $title = $params['SongsSearch']['title'];
-            $artist = $params['SongsSearch']['artist'];
-        }
-        $condition = "";
-        if(!empty($title) && !empty($artist)){
-            $condition = " AND t.title LIKE '%$title%' AND t.artist LIKE '%$artist%'";
-        } elseif (!empty($title) && empty($artist)) {
-            $condition = " AND t.title LIKE '%$title%'";
-        } elseif(empty($title) && !empty($artist)) {
-            $condition = " AND t.artist LIKE '%$artist%'";
-        }
-        if(!empty($month)){
-            $start_date = $month.'-01';
-            $end_date = $month.'-31';
-            
-            $sql = "select COUNT(*) AS download from track t, stream s where s.createdAt BETWEEN '$start_date' AND '$end_date' AND t.type = 'audio' and t.id = s.track and s.type = 1".$condition;
-            $sql2 = "select COUNT(*) AS stream from track t, stream s where s.createdAt BETWEEN '$start_date' AND '$end_date' AND t.type = 'audio' and t.id = s.track and s.type = 0".$condition;
-        } else {
-            $sql = "select COUNT(*) AS download from track t, stream s where t.type = 'audio' and t.id = s.track and s.type = 1".$condition;
-            $sql2 = "select COUNT(*) AS stream from track t, stream s where t.type = 'audio' and t.id = s.track and s.type = 0".$condition;
-        }
-        
-        $params['SongsSearch']['type'] = 'audio';
-        $dataProvider = $searchModel->search($params);
-        
-        $connection = Yii::$app->getDb();
-        $command = $connection->createCommand($sql);
-        $result = $command->queryAll();
-        $command2 = $connection->createCommand($sql2);
-        $result2 = $command2->queryAll();
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'month' => $month,
-            'stream' => $result2[0]['stream'],
-            'download' => $result[0]['download']
-        ]);
+	$session = Yii::$app->session;
+        $type = $session->get('user-type');
+        $label = $session->get('label');
+	
+	if($type == 'general'){
+		$searchModel = new SongsSearch();
+		$searchModel->recordlabel = $label;
+		$params = '';
+		return $this->render('label-index', [
+		    'searchModel' => $searchModel,
+		    'dataProvider' => $dataProvider,
+		]);
+	} else {
+		$month = date('Y-m');
+		$array = [];
+		$array['SongsSearch'] = [];
+		if(isset($_GET['month']) && !empty($_GET['month'])){
+		    $month = $_GET['month'];
+		}
+		$searchModel = new SongsSearch();
+		$params = '';
+		if(isset($_GET['SongsSearch'])){
+		    $params = Yii::$app->request->queryParams;
+		}
+		$title = '';
+		$artist = '';
+		if(!empty($params)){
+		    $title = $params['SongsSearch']['title'];
+		    $artist = $params['SongsSearch']['artist'];
+		}
+		$condition = "";
+		if(!empty($title) && !empty($artist)){
+		    $condition = " AND t.title LIKE '%$title%' AND t.artist LIKE '%$artist%'";
+		} elseif (!empty($title) && empty($artist)) {
+		    $condition = " AND t.title LIKE '%$title%'";
+		} elseif(empty($title) && !empty($artist)) {
+		    $condition = " AND t.artist LIKE '%$artist%'";
+		}
+		if(!empty($month)){
+		    $start_date = $month.'-01';
+		    $end_date = $month.'-31';
+
+		    $sql = "select COUNT(*) AS download from track t, stream s where s.createdAt BETWEEN '$start_date' AND '$end_date' AND t.type = 'audio' and t.id = s.track and s.type = 1".$condition;
+		    $sql2 = "select COUNT(*) AS stream from track t, stream s where s.createdAt BETWEEN '$start_date' AND '$end_date' AND t.type = 'audio' and t.id = s.track and s.type = 0".$condition;
+		} else {
+		    $sql = "select COUNT(*) AS download from track t, stream s where t.type = 'audio' and t.id = s.track and s.type = 1".$condition;
+		    $sql2 = "select COUNT(*) AS stream from track t, stream s where t.type = 'audio' and t.id = s.track and s.type = 0".$condition;
+		}
+
+		$params['SongsSearch']['type'] = 'audio';
+		$dataProvider = $searchModel->search($params);
+
+		$connection = Yii::$app->getDb();
+		$command = $connection->createCommand($sql);
+		$result = $command->queryAll();
+		$command2 = $connection->createCommand($sql2);
+		$result2 = $command2->queryAll();
+		return $this->render('index', [
+		    'searchModel' => $searchModel,
+		    'dataProvider' => $dataProvider,
+		    'month' => $month,
+		    'stream' => $result2[0]['stream'],
+		    'download' => $result[0]['download']
+		]);	
+	}
     }
 	
 	public function actionExport(){
@@ -114,6 +128,33 @@ class SongsController extends \yii\web\Controller {
 
 	}
 	
+	public function actionFeebacks($id){
+		$sql = "SELECT t.name, q.question, a.answer FROM `answers` a, `questions` q, `track` t WHERE t.id = '".$id."' AND a.track = t.id AND a.question = q.id";
+		$command = $connection->createCommand($sql);
+		$result = $command->queryAll();
+		$filename = 'Feedback-'.Date('YmdGis').'-Tracks.xls';
+		header("Content-type: application/vnd-ms-excel");
+		header("Content-Disposition: attachment; filename=".$filename);
+		echo '<table border="1" width="100%">
+			<thead>
+				<tr>
+					<th>Song Name</th>
+					<th>Question</th>
+					<th>Answer</th>
+				</tr>
+			</thead>';
+			foreach($result as $data){
+				echo '
+					<tr>
+						<td>'.$data['name'].'</td>
+						<td>'.$data['question'].'</td>
+						<td>'.$data['answer'].'</td>
+					</tr>
+				';
+			}
+		echo '</table>';
+	}
+	
 	public function actionCsv(){
 		$sql = "SELECT COUNT(*) as nos, t.title, t.artist FROM `stream` s, `track` t WHERE s.type = 0 AND t.type = 'audio' AND s.track = t.id GROUP BY s.track Order BY nos DESC";
 		$filename = "reports.csv";
@@ -127,7 +168,7 @@ class SongsController extends \yii\web\Controller {
 		}   
 		fputcsv($fp, $header);
 		$command = $connection->createCommand($sql);
-        $result = $command->queryAll();
+        	$result = $command->queryAll();
 		foreach ($result as $data) {
 				fputcsv($fp, $data);
 		}
