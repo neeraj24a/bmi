@@ -60,6 +60,9 @@ class LoginForm extends Model
             $user = Users::find()->where(['username' => $this->username])->one();
             $user->last_visit = date("Y-m-d H:i:s");
             if($user->update(false) !== false){
+                $session = Yii::$app->session;
+                $session->set('user-type', $user->type);
+                $session->set('label', $user->recordlabel);
                 return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
             } else {
                 throw new \yii\web\NotFoundHttpException("Something Went wrong Try Again.");
