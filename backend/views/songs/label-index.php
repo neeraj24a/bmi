@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'label'=>'Export Feedbacks',
                                     'format' => 'raw',
                                     'value'=>function ($model) {
-                                        return Html::url('songs/export?id='.$model->id);
+                                        return Html::url('songs/feedbacks?id='.$model->id);
                                     },
                                 ],
                             ],
