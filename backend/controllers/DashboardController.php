@@ -33,7 +33,7 @@ class DashboardController extends \yii\web\Controller {
     {
         $session = Yii::$app->session;
         $type = $session->get('user-type');
-        $label = $session->get('label')
+        $label = $session->get('label');
         if($type == 'general') {
             $audios = Track::findAll(['type' => 'audio', 'recordlabel' => $label]);
             $videos = Track::findAll(['type' => 'video', 'recordlabel' => $label]);    
