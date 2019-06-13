@@ -32,12 +32,16 @@ class DashboardController extends \yii\web\Controller {
     public function actionIndex()
     {
         $session = Yii::$app->session;
-        pre($session->get('label'));
-        pre($session->get('user-type'), true);
-        
-        $audios = Track::findAll(['type' => 'audio']);
-        $videos = Track::findAll(['type' => 'video']);
-        return $this->render('index',['audio' => count($audios),'video' => count($videos)]);
+        $type = $session->get('user-type');
+        $label = $session->get('label')
+        if($type == 'general') {
+            $audios = Track::findAll(['type' => 'audio', 'recordlabel' => $label]);
+            $videos = Track::findAll(['type' => 'video', 'recordlabel' => $label]);    
+        } else {
+            $audios = Track::findAll(['type' => 'audio']);
+            $videos = Track::findAll(['type' => 'video']);
+        }
+        return $this->render('index',['audio' => count($audios),'video' => count($videos), 'type' => $type]);
     }
     
 }
