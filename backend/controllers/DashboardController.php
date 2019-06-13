@@ -31,9 +31,8 @@ class DashboardController extends \yii\web\Controller {
     
     public function actionIndex()
     {
-        pre(Yii::$app->user->identity);
-        // pre(Yii::$app->user->identity->type);
-        pre(Yii::$app->user->type, true);
+        $session = Yii::$app->session;
+        pre($session->get('user-type'), type);
         
         $audios = Track::findAll(['type' => 'audio']);
         $videos = Track::findAll(['type' => 'video']);
