@@ -51,8 +51,8 @@ class Users extends ActiveRecord implements IdentityInterface {
         return [
             [['username', 'password', 'email', 'auth_key', 'status'], 'required'],
             [['status'], 'integer'],
-            [['type'], 'string'],
-            [['type', 'created_at', 'updated_at', 'last_visit'], 'safe'],
+            [['type', 'recordlabel'], 'string'],
+            [['type', 'recordlabel', 'created_at', 'updated_at', 'last_visit'], 'safe'],
             [['username', 'auth_key'], 'string', 'max' => 128],
             [['password', 'password_reset_token', 'email'], 'string', 'max' => 255],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
@@ -71,6 +71,7 @@ class Users extends ActiveRecord implements IdentityInterface {
             'username' => 'Username',
             'password' => 'Password',
             'type' => 'Type',
+            'recordlabel' => 'Record Label',
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
             'last_visit' => 'Last Visited',
@@ -102,7 +103,8 @@ class Users extends ActiveRecord implements IdentityInterface {
      * @return static|null
      */
     public static function findByUsername($username) {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE, 'type' => 'admin']);
+        //return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE, 'type' => 'admin']);
+        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
