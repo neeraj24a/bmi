@@ -79,7 +79,10 @@ class LoginForm extends Model
         if ($this->_user === null) {
             $this->_user = Users::findByUsername($this->username);
         }
-
+        if ($this->_user !== null) {
+            $session = Yii::$app->session;
+            $session->set('user-type', $this->_user->type);
+        }
         return $this->_user;
     }
 }
