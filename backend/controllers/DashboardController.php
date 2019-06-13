@@ -31,6 +31,7 @@ class DashboardController extends \yii\web\Controller {
     
     public function actionIndex()
     {
+        pre(Yii::$app->user->identity, true);
         $audios = Track::findAll(['type' => 'audio']);
         $videos = Track::findAll(['type' => 'video']);
         return $this->render('index',['audio' => count($audios),'video' => count($videos)]);
