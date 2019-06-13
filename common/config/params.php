@@ -1,0 +1,38 @@
+<?php
+return [
+    'adminEmail' => 'admin@example.com',
+    'supportEmail' => 'support@example.com',
+    'user.passwordResetTokenExpire' => 3600,
+    'upload_path' => 'images/products/',
+    'gender' => array('male' => 'Male', 'female' => 'Female'),
+    'payment_status' => array('transferred' => 'Transferred', 'cancelled' => 'Cancelled', 'pending' => 'Pending'),
+    'gateway_payment_status' => array('complete' => 'Complete', 'pending' => 'Pending'),
+    'user_payment_status' => array('a' => 'Approved', 'p' => 'Pending', 'c' => 'Cancel'),
+    'charge_type' => array('processing' => 'Processing', 'transaction' => 'Transaction'),
+    'genre_for' => array('song' => 'Song', 'video' => 'Video'),
+    'page_name' => array('a' => 'About Us', 'c' => 'Contact Us', 't' => 'Terms', 'm' => 'Misson', 'v' => 'Vision', 'as' => 'Aspiration', 'q' => 'Quality', 'te' => 'Technology', 'mar' => 'Marketing', 'ot' => 'Our Team', 'why' => 'Why Naturaxion'),
+    'months' => array(
+        '1' => 'January',
+        '2' => 'February',
+        '3' => 'March',
+        '4' => 'April',
+        '5' => 'May',
+        '6' => 'June',
+        '7' => 'July',
+        '8' => 'August',
+        '9' => 'September',
+        '10' => 'October',
+        '11' => 'November',
+        '12' => 'December'
+    ),
+    'front_user_role' => 'fc1965dc-fc39-11e5-bac4-3c07717072c4',
+    'admin_roles' => array('4eee73be-fb69-11e5-91d7-3c07717072c4' => 'Admin'),
+    'admin' => '7e567f4c-fb69-11e5-91d7-3c07717072c4',
+    'discount_type' => array('percent' => 'Percent', 'number' => 'Number'),
+    'boolean' => array('0' => 'No', '1' => 'Yes'),
+    'roles' => array('admin' => 'Admin', 'company' => 'Company', 'data_entry' => 'Data Entry', 'inspector' => 'Inspector'),
+    'facility_type' => array('MFG' => 'Manufacturing', 'OWN' => 'Owned'),
+    'inspection_freq' => array('0' => 'Temidi', '1' => 'Monthly', '2' => 'Bi-Monthly', '3' => 'Quarterly', '4' => 'Tri-Annual', '6' => 'Bi-Annual', '12' => 'Annual', '24' => 'Biennial'),
+    'inspection_occur' => array('1' => '30 days', '2' => '60 days', '3' => '91 days', '4' => '121 days', '6' => '182 days', '12' => '365 days', '24' => '730 days'),
+    'is_active' => array('0' => 'In Active','1' => 'Active')
+];
