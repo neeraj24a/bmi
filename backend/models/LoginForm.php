@@ -86,8 +86,8 @@ class LoginForm extends Model
         if ($this->_user !== null) {
             $session = Yii::$app->session;
             $session->set('user-type', $this->_user->type);
-            $session->set('label', $user->recordlabel);
-            $session->set('username', $user->username);
+            $session->set('label', $this->_user->recordlabel);
+            $session->set('username', $this->_user->username);
         }
         return $this->_user;
     }
