@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'attribute' => 'id',
                                     'label' => 'Feedbacks',
                                     'value' => function($model) {
-                                        $feedbacks = Answers::find()->where(['track' => $model->id, 'type' => 0])->all();
+                                        $feedbacks = Answers::find()->where(['track' => $model->id])->all();
                                         return count($feedbacks);
                                     }
                                 ],
