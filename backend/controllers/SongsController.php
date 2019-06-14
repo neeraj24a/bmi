@@ -40,6 +40,11 @@ class SongsController extends \yii\web\Controller {
 		$searchModel = new SongsSearch();
 		$searchModel->recordlabel = $label;
 		$params = '';
+		if(isset($_GET['SongsSearch'])){
+		    $params = Yii::$app->request->queryParams;
+		}
+		$params['SongsSearch']['recordlabel'] = $label;
+		$dataProvider = $searchModel->search($params);
 		return $this->render('label-index', [
 		    'searchModel' => $searchModel,
 		    'dataProvider' => $dataProvider,
