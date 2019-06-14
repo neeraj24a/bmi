@@ -62,7 +62,8 @@ class SongsSearch extends Track
         $query->andFilterWhere(['like', 'type', $this->type])
             ->andFilterWhere(['like', 'name', $this->artist])
             ->andFilterWhere(['like', 'artist', $this->artist])
-            ->andFilterWhere(['like', 'title', $this->title]);
+            ->andFilterWhere(['like', 'recordlabel', $this->recordlabel])
+           ->andFilterWhere(['like', 'title', $this->title]);
         $query->orderBy(['updatedAt' => SORT_DESC]);
         return $dataProvider;
     }
