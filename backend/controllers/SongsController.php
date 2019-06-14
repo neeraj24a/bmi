@@ -135,7 +135,7 @@ class SongsController extends \yii\web\Controller {
 
 	}
 	
-	public function actionFeebacks($id){
+	public function actionFeedbacks($id){
 		$sql = "SELECT t.name, q.question, a.answer FROM `answers` a, `questions` q, `track` t WHERE t.id = '".$id."' AND a.track = t.id AND a.question = q.id";
 		$command = $connection->createCommand($sql);
 		$result = $command->queryAll();
