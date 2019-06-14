@@ -137,6 +137,7 @@ class SongsController extends \yii\web\Controller {
 	
 	public function actionFeedbacks($id){
 		$sql = "SELECT t.name, q.question, a.answer FROM `answers` a, `questions` q, `track` t WHERE t.id = '".$id."' AND a.track = t.id AND a.question = q.id";
+		$connection = Yii::$app->getDb();
 		$command = $connection->createCommand($sql);
 		$result = $command->queryAll();
 		$filename = 'Feedback-'.Date('YmdGis').'-Tracks.xls';
