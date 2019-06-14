@@ -50,8 +50,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 [
                                     'label'=>'Export Feedbacks',
                                     'format' => 'raw',
-                                    'value'=>function ($model) {
-                                        return Url::base().'/songs/feedbacks?id='.$model->id;
+                                    'value' => function($model) {
+                                        return Html::a('Export Feedbacks', Url::base().'/songs/feedbacks?id='.$model->id, ['title' => 'Export Feedbacks', 'target' => '_blank', 'data' => ['pjax' => 0]] );
                                     },
                                 ],
                             ],
