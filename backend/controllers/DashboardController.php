@@ -23,11 +23,8 @@ class DashboardController extends \yii\web\Controller {
      * @return Response
      */
     public function beforeAction($action) {
-        $session = Yii::$app->session;
-        $type = $session->get('user-type');
-        if($type != 'general' || $type != 'admin')
+        if ( Yii::$app->user->isGuest )
             return Yii::$app->getResponse()->redirect(Url::to(['/login'],302));
-        
         return parent::beforeAction($action);
     }
     
