@@ -63,6 +63,7 @@ class LoginForm extends Model
                 $session = Yii::$app->session;
                 $session->set('user-type', $user->type);
                 $session->set('label', $user->recordlabel);
+                $session->set('username', $user->username);
                 return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
             } else {
                 throw new \yii\web\NotFoundHttpException("Something Went wrong Try Again.");
