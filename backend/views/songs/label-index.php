@@ -4,6 +4,8 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use backend\models\Stream;
+use backend\models\Questions;
+use backend\models\Answers;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UsersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
