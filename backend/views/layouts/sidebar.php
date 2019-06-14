@@ -4,6 +4,10 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+$session = Yii::$app->session;
+$type = $session->get('user-type');
+$label = $session->get('label');
+$username = $session->get('username');
 ?>
 <?php $active = Yii::$app->controller->id; ?>
 <div class="sidebar" data-color="rose" data-background-color="black" data-image="../assets/img/sidebar-1.jpg">
@@ -32,7 +36,7 @@ use yii\helpers\Url;
             <div class="user-info">
                 <a data-toggle="collapse" href="#collapseExample" class="username">
                     <span>
-                        <?php echo Yii::$app->user->identity->username; ?>
+                        <?php echo $username; ?>
                         <b class="caret"></b>
                     </span>
                 </a>
@@ -67,7 +71,7 @@ use yii\helpers\Url;
                     <p> Dashboard </p>
                 </a>
             </li>
-            <li class="nav-item  <?php if($active == "users" && Yii::$app->user->identity->type == 'admin'){echo 'active';} ?>">
+            <li class="nav-item  <?php if($active == "users" && $type == 'admin'){echo 'active';} ?>">
                 <a class="nav-link" href="<?php echo Url::toRoute("/users"); ?>" title="Users">
                     <i class="material-icons">person</i>
                     <span data-localize="sidebar.nav.element.ELEMENTS">Users</span>
