@@ -7,6 +7,8 @@ use \yii\helpers\Url;
 use backend\models\SongsSearch;
 use backend\models\Stream;
 use backend\models\Track;
+use backend\models\Questions;
+use backend\models\Answers;
 use yii\filters\VerbFilter;
 
 class SongsController extends \yii\web\Controller {
